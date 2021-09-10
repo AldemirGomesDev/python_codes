@@ -11,8 +11,6 @@ ERRORS_BAD_CONTEXT.append(winerror.E_NOTIMPL)
 
 class PDFReader:
     def __init__(self):
-        self.ie_app = None
-        self.hwnd = None
         self.reqs_path = "log/PDF.log"
         return
 
@@ -21,8 +19,11 @@ class PDFReader:
         content = None
 
         try:
+            logging.basicConfig(filename=self.reqs_path, encoding='utf-8', level=logging.DEBUG)
             win32ClientMake.GenerateFromTypeLibSpec('AcroPDF.PDF')
             avDoc = win32client.DispatchEx('AcroExch.AVDoc')
+            logging.debug('======================================')
+            logging.debug(filepath)
 
             avDoc.Open(filepath, "")
             pdDoc = avDoc.GetPDDoc()
@@ -41,8 +42,6 @@ class PDFReader:
             doc = word.Documents.Open(r'"%s"' % (word_file))
             content = doc.Content.Text
 
-            logging.basicConfig(filename=self.reqs_path, encoding='utf-8', level=logging.DEBUG)
-            logging.debug('======================================')
             logging.debug(content)
             logging.debug(numPage)
 

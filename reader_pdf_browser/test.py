@@ -72,6 +72,9 @@ class PDFReader:
             self.ie_app.Visible = 1
             self.ie_app.navigate(filepath)
 
+            pdfViewer = self.ie_app.Document.embeds[0]
+            content = pdfViewer.Print()
+
         except Exception as exc:
             content =  exc
             print(traceback.format_exc(), file=sys.stderr)
